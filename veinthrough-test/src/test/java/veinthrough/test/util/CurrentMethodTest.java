@@ -12,7 +12,7 @@ import static veinthrough.api.util.MethodLog.methodLog;
  *
  * Get the current method name.
  * NOTE: 当前的函数在StackTrace[1], 如果要获取上一层的函数, 那应该用StackTrace[2], 依次类推
- * @see MethodLog#getMethodString()
+ * @see MethodLog#getMethodString(int)
  */
 
 @Slf4j

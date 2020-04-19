@@ -62,7 +62,7 @@ public class BlockingQueueTest extends AbstractUnitTester {
     private static final int SEARCH_THREADS = 10;
     private static final BlockingQueue<File> queue = new ArrayBlockingQueue<>(FILE_QUEUE_SIZE);
     private static final String directory =
-            "D:\\Cloud\\Projects\\IdeaProjects\\test\\veinthrough\\test\\src\\main\\java\\veinthrough\\test";
+            "D:\\Cloud\\Projects\\IdeaProjects\\veinthrough\\veinthrough-test\\src\\test\\java\\veinthrough\\test";
     private static final String keyword = "AbstractUnitTester";
 
     /* (non-Javadoc)

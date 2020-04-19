@@ -64,7 +64,7 @@ import static veinthrough.api.util.MethodLog.methodLog;
 @Slf4j
 public class ThreadPoolTest extends AbstractUnitTester {
     private static final String directory =
-            "D:\\Cloud\\Projects\\IdeaProjects\\test\\veinthrough\\test\\src\\main\\java\\veinthrough\\test";
+            "D:\\Cloud\\Projects\\IdeaProjects\\veinthrough\\veinthrough-test\\src\\test\\java\\veinthrough\\test";
     private static final String keyword = "AbstractUnitTester";
     private static final ExecutorService pool = Executors.newCachedThreadPool();
 

@@ -31,6 +31,9 @@ import static veinthrough.api.util.MethodLog.methodLog;
  * alling wait() is equals to calling await() of intrinsic lock
  * calling notifyAll() is equals to calling signalAll() of intrinsic lock
  * @see SyncBankTest#syncBankTest2()
+ * 直接在方法上使用synchronized可能粒度有点大，可以使用：
+ * synchronized(object) {...}
+ * 有一个好处就是不需要手动释放锁
  */
 @SuppressWarnings("Duplicates")
 @Slf4j

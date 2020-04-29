@@ -1,6 +1,7 @@
 package veinthrough.test.collection;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import veinthrough.test.AbstractUnitTester;
@@ -21,10 +22,11 @@ import static veinthrough.api.util.MethodLog.methodLog;
  * 1. shuffle and sort test
  * 2. set view of map test
  * 3. serveral kinds of view tests
+ * 4. list to array test
  * </pre>
  */
 @Slf4j
-public class CollectionBasicTest extends AbstractUnitTester {
+public class ApiTest extends AbstractUnitTester {
 
     @Override
     public void test() {
@@ -98,10 +100,30 @@ public class CollectionBasicTest extends AbstractUnitTester {
 
         // unmodifiable view
         // Can use ImmutableList from Guava, which is not a view.
-        // CollectionCreation#newList3(SIZE2...)
+        // CreationTest#newList3(SIZE2...)
         List<Employee> unmodifiableWorkersList = Collections.unmodifiableList(workers);
 
         // synchronized view
         List<Employee> synchronizedWorkersList = Collections.synchronizedList(workers);
+    }
+
+    /**
+     * 1. array = (String[])collection.toArray()
+     * 2. collection.toArray(array[size[)
+     * 3. array = collection.toArray(array[0])
+     */
+    @Test
+    public void toArrayTest() {
+        List<String> list =
+                Lists.newArrayList("aardvark", "elephant", "koala", "eagle", "kangaroo");
+
+        // java.lang.ClassCastException:
+        // [Ljava.lang.Object; cannot be cast to [Ljava.lang.String
+//        String[] array1 = (String[]) list.toArray();
+        String[] array2 = new String[list.size()];
+        list.toArray(array2);
+        String[] array3 = list.toArray(new String[0]);
+        log.info(methodLog("array2", Arrays.toString(array2),
+                "array3", Arrays.toString(array3)));
     }
 }

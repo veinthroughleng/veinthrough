@@ -3,9 +3,10 @@ package veinthrough.test.stream;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import veinthrough.api.collection.ListToMap;
+import veinthrough.api.collection.CollectionToMap;
 import veinthrough.test.AbstractUnitTester;
 import veinthrough.test.async.ForkJoinTest;
+import veinthrough.test.collection.TraverseTest;
 import veinthrough.test.guava.RangeTest;
 import veinthrough.test.string.CheckSumTest;
 
@@ -24,9 +25,13 @@ import static veinthrough.api.util.MethodLog.methodLog;
  * <pre>
  * Tests:
  * 1. list to map
- * @see ListToMap
- * 2. convert a stream to a int stream
- * @see ForkJoinTest.WordMatchCounter#compute()
+ * @see CollectionToMap
+ * 2. Collection <--> Stream<T> <--> IntStream
+ * 特殊的Stream会有额外的功能(比如IntStream的sum)
+ * @see ForkJoinTest.WordMatchCounter#compute(), Stream<T> -> IntStream
+ * @see TraverseTest#arrayListTest(), IntStream -> Stream<IntTeger> -> List<T>
+ * @see TraverseTest#vectorTest(), IntStream -> Stream<IntTeger> -> Vector<T>
+ *
  * 3. range of integer
  * (1) IntStream range(int startInclusive, int endExclusive)
  * (2) Stream.iterate(initial value, next value),

@@ -6,6 +6,7 @@ import veinthrough.api.generic.Pair;
 import veinthrough.test.AbstractUnitTester;
 import veinthrough.test._class.Employee;
 import veinthrough.test._class.Manager;
+import veinthrough.test.collection.ApiTest;
 
 import java.util.Arrays;
 
@@ -19,6 +20,8 @@ import static veinthrough.api.util.MethodLog.methodLog;
  * 1. 使用Arrays.toString(str)打印数组
  * 2. 数组/多态: 数组的协变性, Employee[] staffs = managers; 所有数组都要牢记创建它们的元素类型，
  * 否则可能会导致调用不存在的域
+ * @see #covarianceTest(), java.lang.ArrayStoreException
+ * @see ApiTest#toArrayTest(), java.lang.ClassCastException, 数组强制转换异常
  * 3. 数组/泛型: 数组都会牢记创建它们的元素类型, 但是类型擦除会使泛型失效, 所以不能实例化参数化类型的数组;
  * 所以对于泛型最好用collection如ArrayList
  * </pre>
@@ -45,7 +48,7 @@ public class ArrayTest extends AbstractUnitTester {
         log.info(methodLog("managers", Arrays.toString(managers),
                 "staffs", Arrays.toString(staffs)));
         // 编译没问题，但是运行时java.lang.ArrayStoreException
-        // 因为数组记住了创建它们的元素类型，所有抛出异常
+        // 因为数组记住了创建它们的元素类型，所以抛出异常
         // 否则如果调用managers[0].getBonus(), 将会调用不存在的域
         staffs[0] = worker;
         log.info(methodLog("managers", Arrays.toString(managers),

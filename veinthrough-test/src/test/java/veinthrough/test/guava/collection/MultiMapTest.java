@@ -5,14 +5,15 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimaps;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import veinthrough.api.collection.ListToMap;
+import veinthrough.api.collection.CollectionToMap;
 import veinthrough.test.AbstractUnitTester;
+import veinthrough.test.collection.CollectionToMapTest;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Function;
 
-import static veinthrough.api.util.MethodLog.*;
+import static veinthrough.api.util.MethodLog.methodLog;
 
 /**
  * @author veinthrough
@@ -21,9 +22,9 @@ import static veinthrough.api.util.MethodLog.*;
  * Tests:
  * 1. Convert a list to a map, the same effect:
  *   (1) by multimap: Multimaps.index(list, keyFunction)
- *   (2) by ListToMap: toListedMap(list, keyFunction)
- *     @see ListToMap#toListedMap(List, Function)
- *     @see ListToMapTest#listToMapTest6()
+ *   (2) by CollectionToMap: toListedMap(list, keyFunction)
+ *     @see CollectionToMap#toListedMap(Collection, Function)
+ *     @see CollectionToMapTest#listToMapTest6()
  * </pre>
  */
 @Slf4j
@@ -46,10 +47,10 @@ public class MultiMapTest extends AbstractUnitTester {
                         str -> Objects.requireNonNull(str).charAt(0));
         log.info(methodLog(animalsByFirstLetter.toString()));
 
-        // 2. by ListToMap
-        // @see veinthrough.api.collection.ListToMap#toListedMap(List, Function)
+        // 2. by CollectionToMap
+        // @see veinthrough.api.collection.CollectionToMap#toListedMap(List, Function)
         log.info(methodLog(
-                ListToMap.toListedMap(
+                CollectionToMap.toListedMap(
                         animalsList,
                         str -> str.charAt(0))
                         .toString()

@@ -2,6 +2,7 @@ package veinthrough.api.collection;
 
 import veinthrough.api._interface.Identifiable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BinaryOperator;
@@ -20,12 +21,12 @@ import java.util.stream.Collectors;
  * 4. identifiable + list
  * </pre>
  */
-public class ListToMap {
+public class CollectionToMap {
     // 1. non-identifiable + override + retain first/last
-    public static <K, T> Map<K, T> toUniqueMap(List<T> list,
+    public static <K, T> Map<K, T> toUniqueMap(Collection<T> collection,
                                                Function<? super T, ? extends K> keyFunction,
                                                RETAIN_MANNER manner) {
-        return list.stream()
+        return collection.stream()
                 .collect(
                         Collectors.toMap(
                                 keyFunction,
@@ -36,9 +37,9 @@ public class ListToMap {
     }
 
     // 2. identifiable + override + retain first/last
-    public static <K, T extends Identifiable<K>> Map<K, T> toUniqueMap(List<T> list,
+    public static <K, T extends Identifiable<K>> Map<K, T> toUniqueMap(Collection<T> collection,
                                                                        RETAIN_MANNER manner) {
-        return list.stream()
+        return collection.stream()
                 .collect(
                         Collectors.toMap(
                                 T::getIdentifier,
@@ -53,15 +54,15 @@ public class ListToMap {
     // The same effect:
     //   (1) toListedMap(list, keyFunction)
     //   (2) Multimaps.index(list, keyFunction)
-    public static <K, T> Map<K, List<T>> toListedMap(List<T> list,
+    public static <K, T> Map<K, List<T>> toListedMap(Collection<T> collection,
                                                      Function<? super T, ? extends K> keyFunction) {
-        return list.stream()
+        return collection.stream()
                 .collect(Collectors.groupingBy(keyFunction));
     }
 
     // 4. identifiable + list
-    public static <K, T extends Identifiable<K>> Map<K, List<T>> toListedMap(List<T> list) {
-        return list.stream()
+    public static <K, T extends Identifiable<K>> Map<K, List<T>> toListedMap(Collection<T> collection) {
+        return collection.stream()
                 .collect(Collectors.groupingBy(T::getIdentifier));
     }
 

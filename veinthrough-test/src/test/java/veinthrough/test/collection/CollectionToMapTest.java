@@ -1,19 +1,23 @@
-package veinthrough.test.guava.collection;
+package veinthrough.test.collection;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import veinthrough.api.collection.ListToMap;
+import veinthrough.api.collection.CollectionToMap;
+import veinthrough.api.collection.CollectionToMap.RETAIN_MANNER;
 import veinthrough.test.AbstractUnitTester;
 import veinthrough.test._class.Employee;
 import veinthrough.test._class.Manager;
+import veinthrough.test.guava.collection.MultiMapTest;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static veinthrough.api.collection.ListToMap.RETAIN_MANNER.RETAIN_FIRST;
+import static veinthrough.api.collection.CollectionToMap.RETAIN_MANNER.RETAIN_FIRST;
 import static veinthrough.api.util.MethodLog.*;
 
 /**
@@ -33,23 +37,33 @@ import static veinthrough.api.util.MethodLog.*;
  *     <2> retain last
  *   (2) list
  * 4. Use Collectors.groupingBy: use list manner for duplicate key handling
- * 5. Use generic ListToMap:
+ * 5. Use generic CollectionToMap:
  *   (1) non-identifiable + override + retain first/last
- *   @see ListToMap#toUniqueMap(List, Function, ListToMap.RETAIN_MANNER)
+ *   @see CollectionToMap#toUniqueMap(Collection, Function, RETAIN_MANNER)
  *   (2) identifiable + override + retain first/last
- *   @see ListToMap#toUniqueMap(List, ListToMap.RETAIN_MANNER)
+ *   @see CollectionToMap#toUniqueMap(Collection, RETAIN_MANNER)
  *   (3) non-identifiable + list
  *   The same effect:
  *     <1> toListedMap(list, keyFunction)
  *     <2> Multimaps.index(list, keyFunction)
- *   @see ListToMap#toListedMap(List, Function)
+ *   @see CollectionToMap#toListedMap(Collection, Function)
  *   @see MultiMapTest#listToMapTest()
  *   (4) identifiable + list
- *   @see ListToMap#toListedMap(List)
+ *   @see CollectionToMap#toListedMap(Collection)
+ *   (5) use {@link Maps#uniqueIndex(Iterable, com.google.common.base.Function)}
+ *   @see veinthrough.test.collection.TreeTest#treeMapTraverseTest
+ *     1> Maps.uniqueIndex()/Multimaps.index(),
+ *        @see CreationTest#mapTest()
+ *        duplicate keys: IllegalArgumentException/to a list
+ *     2> Maps.uniqueIndex()/CollectionToMap.toUniqueMap()
+ *        @see CreationTest#mapTest()
+ *        @see TreeTest#treeMapTraverseTest()
+ *        改变顺序: 不改变顺序/CollectionToMap.toUniqueMap()中使用Stream/Collectors可能会改变元素顺序
+ *        duplicate keys: IllegalArgumentException/RETAIN_MANNER
  * </pre>
  */
 @Slf4j
-public class ListToMapTest extends AbstractUnitTester {
+public class CollectionToMapTest extends AbstractUnitTester {
     private static final Employee worker = new Employee("src/main/java/veinthrough", 60000D);
     private static final Manager cfo =
             new Manager("Sid Sneaky", 800000D, 60000D);
@@ -141,7 +155,7 @@ public class ListToMapTest extends AbstractUnitTester {
     @Test
     public void listToMapTest7() {
         log.info(methodLog(
-                ListToMap.toUniqueMap(
+                CollectionToMap.toUniqueMap(
                         getDataList(),
                         str -> str.charAt(0),
                         RETAIN_FIRST)
@@ -154,7 +168,7 @@ public class ListToMapTest extends AbstractUnitTester {
     @Test
     public void listToMapTest9() {
         log.info(methodLog(
-                ListToMap.toUniqueMap(
+                CollectionToMap.toUniqueMap(
                         Lists.newArrayList(worker, ceo, cfo),
                         RETAIN_FIRST)
 //                        RETAIN_LAST)
@@ -166,7 +180,7 @@ public class ListToMapTest extends AbstractUnitTester {
     @Test
     public void listToMapTest6() {
         log.info(methodLog(
-                ListToMap.toListedMap(
+                CollectionToMap.toListedMap(
                         getDataList(),
                         str -> str.charAt(0))
                         .toString()
@@ -177,7 +191,7 @@ public class ListToMapTest extends AbstractUnitTester {
     @Test
     public void listToMapTest8() {
         log.info(methodLog(
-                ListToMap.toListedMap(
+                CollectionToMap.toListedMap(
                         Lists.newArrayList(worker, ceo, cfo))
                         .toString()
         ));
